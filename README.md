@@ -2,9 +2,42 @@
 
 Semantic memory for a person, captured by voice, on **DynamoDB vector search**.
 
-Siri, Gemini for Mac, Raycast and the Claude/ChatGPT desktop apps all share one
-limitation: the context dies with the session. You tell them something today and
-tomorrow they know nothing about it.
+<p align="center">
+  <img src="design/screenshot1.png" alt="EchoBrain answering a typed question in markdown, with the memories the model read listed underneath, each with its similarity" width="820">
+</p>
+
+<p align="center">
+  <sub><b>1 / 2</b> · A question, answered from the memories — and every memory it
+  read, with its similarity, right below the answer. Sources are never collapsed.</sub>
+</p>
+
+<details>
+<summary><b>Next › 2 / 2 — the memory graph</b></summary>
+
+<p align="center">
+  <img src="design/screenshot2.png" alt="The graph view: memory nodes coloured by kind, linked by semantic similarity, with a legend for fact, preference, episode and snippet" width="820">
+</p>
+
+<p align="center">
+  <sub><b>2 / 2</b> · Nothing links one memory to another, so every edge here was
+  <em>asked for</em>: clicking a node buys its neighbourhood with one recall.
+  Thickness is similarity; colour is the kind.</sub>
+</p>
+
+</details>
+
+<!--
+  A `<details>` block rather than a carousel, because GitHub renders README
+  markup through a sanitiser: no `<script>`, no `<style>`, no `onclick`, and no
+  `:target` CSS. Nothing that could swap an image on click survives it. This is
+  the closest working thing — one click, one image at a time, and it degrades to
+  both images stacked in any renderer that ignores `<details>`.
+-->
+
+Gemini for Mac, the Claude and ChatGPT desktop apps, and terminal tools like
+Claude CLI, Codex CLI and Antigravity CLI all share one limitation: the context
+dies with the session. You tell them something today and tomorrow they know
+nothing about it.
 
 EchoBrain keeps it. What you say becomes a memory searchable **by meaning**, in a
 store where the vector lives in the same DynamoDB item as the record.
