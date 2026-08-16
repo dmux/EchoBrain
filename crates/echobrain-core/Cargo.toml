@@ -1,0 +1,28 @@
+[package]
+name = "echobrain-core"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+
+# The dependency list is the architecture. Nothing here knows about Tauri, cpal,
+# whisper, SQLite or AWS; adding one of them is a review conversation, not an
+# import.
+[dependencies]
+agent-memory-core.workspace = true
+async-trait.workspace = true
+thiserror.workspace = true
+serde.workspace = true
+
+[features]
+# Exposes the in-memory port implementations. Mirrors the sibling repository's
+# `agent-memory-core/testing` feature, and for the same reason: the driving
+# adapters test against the domain with no hardware and no network.
+testing = []
+
+[dev-dependencies]
+agent-memory-core = { workspace = true, features = ["testing"] }
+tokio = { workspace = true, features = ["macros", "rt"] }
+
+[lints]
+workspace = true

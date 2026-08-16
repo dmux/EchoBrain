@@ -1,0 +1,51 @@
+[workspace]
+resolver = "3"
+members = [
+    "crates/echobrain-core",
+    "crates/echobrain-audio",
+    "crates/echobrain-journal",
+    "crates/echobrain-llm",
+    "crates/echobrain-app",
+]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.95"
+license = "MIT"
+
+[workspace.dependencies]
+echobrain-core = { path = "crates/echobrain-core" }
+echobrain-audio = { path = "crates/echobrain-audio" }
+echobrain-journal = { path = "crates/echobrain-journal" }
+echobrain-llm = { path = "crates/echobrain-llm" }
+
+# The memory layer lives in the sibling repository. `agent-memory-core` is a
+# domain crate with no AWS dependency at all, so depending on it does not drag
+# infrastructure into `echobrain-core` — it supplies the `MemoryService` port
+# and its in-memory test doubles.
+#
+# These are path dependencies because both repositories evolve together on this
+# machine. Switching to `git` + a pinned `rev` when EchoBrain becomes a
+# standalone repository is a two-line change here and nowhere else.
+agent-memory-core = { path = "../aws-dynamodb-search-vector-rust-example/crates/agent-memory-core" }
+agent-memory-client = { path = "../aws-dynamodb-search-vector-rust-example/crates/agent-memory-client" }
+
+aws-config = { version = "1.10", features = ["behavior-version-latest"] }
+async-trait = "0.1"
+thiserror = "2"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+tokio = { version = "1", features = ["macros", "rt-multi-thread", "time"] }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+
+[workspace.lints.rust]
+# Same posture as the sibling repository: the boundary is enforced by the
+# compiler, not by convention.
+unsafe_code = "forbid"
+missing_debug_implementations = "warn"
+
+[workspace.lints.clippy]
+todo = "warn"
+unwrap_used = "warn"

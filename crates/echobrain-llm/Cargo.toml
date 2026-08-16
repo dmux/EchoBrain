@@ -1,0 +1,30 @@
+[package]
+name = "echobrain-llm"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+description = "Driven adapter: composing a spoken answer from recalled memories, via Bedrock."
+
+# A separate crate for the same reason `echobrain-audio` is one: `echobrain-core`
+# must keep failing to compile if anyone reaches for an AWS type inside it. This
+# is also the only crate in the workspace that spends tokens, and having it be a
+# line in a dependency list makes that visible.
+[dependencies]
+echobrain-core.workspace = true
+
+async-trait.workspace = true
+aws-config.workspace = true
+aws-sdk-bedrockruntime = "1"
+thiserror.workspace = true
+tracing.workspace = true
+
+# Test-only. The prompt tests build `Hit` values by hand, which means naming the
+# memory domain's own types; production code here reaches them through
+# `echobrain-core`'s re-exports and never depends on this directly.
+[dev-dependencies]
+agent-memory-core.workspace = true
+tokio = { workspace = true, features = ["macros", "rt-multi-thread"] }
+
+[lints]
+workspace = true

@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-library"
+description = "Enables the library command without any pre-configured scope."
+commands.allow = ["library"]
+
+[[permission]]
+identifier = "deny-library"
+description = "Denies the library command without any pre-configured scope."
+commands.deny = ["library"]

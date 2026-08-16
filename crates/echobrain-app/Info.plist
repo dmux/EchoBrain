@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Merged into the bundle's generated Info.plist. Tauri picks this up because it
+  sits beside tauri.conf.json.
+
+  NSMicrophoneUsageDescription is not optional: macOS terminates a process that
+  opens an input device without it. Not a permission dialog, not a denial — an
+  immediate crash, which is why it belongs in version control next to the code
+  that opens the microphone.
+-->
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>O EchoBrain transcreve o que você fala, no próprio computador, para guardar como memória buscável. O áudio não sai daqui.</string>
+</dict>
+</plist>

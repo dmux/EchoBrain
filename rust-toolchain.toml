@@ -1,0 +1,5 @@
+[toolchain]
+# Matches the sibling memory project, which needs 1.95 for aws-sdk-dynamodb
+# 1.120. Depending on its crates means inheriting its floor.
+channel = "1.95"
+components = ["rustfmt", "clippy"]

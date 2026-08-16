@@ -1,0 +1,26 @@
+[package]
+name = "echobrain-journal"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+description = "SQLite adapter for EchoBrain's local write journal."
+
+[dependencies]
+echobrain-core.workspace = true
+# `bundled` compiles SQLite from source rather than linking the system copy.
+# The `.app` has to run on a machine that never installed anything, and a
+# dynamically linked SQLite is exactly the kind of dependency that works on the
+# build machine and fails on someone else's.
+rusqlite = { version = "0.37", features = ["bundled"] }
+async-trait.workspace = true
+# For `spawn_blocking`: rusqlite is synchronous and the port is not.
+tokio.workspace = true
+tracing.workspace = true
+
+[dev-dependencies]
+echobrain-core = { workspace = true, features = ["testing"] }
+tokio = { workspace = true, features = ["macros", "rt-multi-thread"] }
+
+[lints]
+workspace = true

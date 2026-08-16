@@ -1,0 +1,57 @@
+[package]
+name = "echobrain-app"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+description = "EchoBrain: a driving adapter over the agent-memory MemoryService port."
+
+# Everything lives in `lib.rs` and the binary stays a thin shell over it, so the
+# composition root is reachable from `examples/` and from the integration tests.
+[lib]
+name = "echobrain_lib"
+crate-type = ["rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2.6", features = [] }
+
+[dependencies]
+# Phase 2 replaces InMemoryJournal with the SQLite adapter.
+echobrain-core.workspace = true
+echobrain-journal.workspace = true
+echobrain-audio.workspace = true
+# The one dependency in this list that spends money. Kept visible here rather
+# than folded into another crate for exactly that reason.
+echobrain-llm.workspace = true
+# The only crate that knows about the network. `agent-memory-core` comes along
+# with it and is re-exported through `echobrain-core`.
+agent-memory-client.workspace = true
+
+aws-config.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
+tauri = { version = "2.11", features = ["tray-icon"] }
+tauri-plugin-global-shortcut = "2.3"
+tokio.workspace = true
+toml = "0.9"
+tracing.workspace = true
+tracing-subscriber.workspace = true
+aws-sdk-polly = "1.113.0"
+async-trait.workspace = true
+# One hash, for one purpose: the SSO token cache is a directory of files named
+# after the SHA-1 of the session name. Reading the SDK's own cache is what lets
+# the app say when the login expires; guessing the file name is not an option.
+sha1 = "0.10"
+
+[dev-dependencies]
+# `tauri/test` provides a mock runtime, so the IPC surface can be exercised
+# without opening a window — including the camelCase-to-snake_case argument
+# conversion, which is invisible until it silently fails.
+tauri = { version = "2.11", features = ["test"] }
+async-trait.workspace = true
+agent-memory-core = { workspace = true, features = ["testing"] }
+echobrain-core = { workspace = true, features = ["testing"] }
+
+[lints]
+workspace = true

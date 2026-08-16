@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-search-memories"
+description = "Enables the search_memories command without any pre-configured scope."
+commands.allow = ["search_memories"]
+
+[[permission]]
+identifier = "deny-search-memories"
+description = "Denies the search_memories command without any pre-configured scope."
+commands.deny = ["search_memories"]

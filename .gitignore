@@ -1,0 +1,23 @@
+/target
+**/target
+
+# Tauri generates these from tauri.conf.json and the capabilities directory.
+crates/echobrain-app/gen/schemas
+
+# The static export, rebuilt by `make build`.
+ui/out
+ui/.next
+ui/node_modules
+ui/next-env.d.ts
+
+# The landing page's build output, same story.
+site/out
+site/.next
+site/node_modules
+site/next-env.d.ts
+
+.DS_Store
+
+# Local Make overrides — the AWS profile, mostly. Never committed: it is one
+# machine's setup, not the project's.
+local.mk

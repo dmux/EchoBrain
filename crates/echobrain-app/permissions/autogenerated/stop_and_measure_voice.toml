@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-stop-and-measure-voice"
+description = "Enables the stop_and_measure_voice command without any pre-configured scope."
+commands.allow = ["stop_and_measure_voice"]
+
+[[permission]]
+identifier = "deny-stop-and-measure-voice"
+description = "Denies the stop_and_measure_voice command without any pre-configured scope."
+commands.deny = ["stop_and_measure_voice"]

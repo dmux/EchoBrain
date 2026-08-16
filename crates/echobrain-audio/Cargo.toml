@@ -1,0 +1,40 @@
+[package]
+name = "echobrain-audio"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+description = "Driven adapters: microphone capture and local speech recognition."
+
+[dependencies]
+echobrain-core.workspace = true
+
+cpal = "0.18"
+rubato = "5"
+thiserror.workspace = true
+# `rt` for `spawn_blocking`, because a whisper pass takes seconds and would
+# otherwise stall every other task on the runtime. `time` and `sync` for the
+# speech adapter, which polls a child process rather than blocking on it so
+# that barge-in can take the lock and kill it.
+tokio = { workspace = true, features = ["rt", "sync", "time"] }
+tracing.workspace = true
+earshot = "1.2.1"
+aws-sdk-polly = "1.113.0"
+aws-config.workspace = true
+ort = "2.0.0-rc.13"
+kaldi-native-fbank = "0.1.0"
+ndarray = "0.17.2"
+
+# whisper.cpp through Metal. `metal` is what makes large-v3-turbo usable on
+# Apple Silicon; on CPU the same model runs several times slower than real time.
+[target.'cfg(target_os = "macos")'.dependencies]
+whisper-rs = { version = "0.16", features = ["metal"] }
+
+[dependencies.async-trait]
+workspace = true
+
+[dev-dependencies]
+tokio = { workspace = true, features = ["macros", "rt-multi-thread", "time"] }
+
+[lints]
+workspace = true

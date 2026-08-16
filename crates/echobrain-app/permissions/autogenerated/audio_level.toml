@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-audio-level"
+description = "Enables the audio_level command without any pre-configured scope."
+commands.allow = ["audio_level"]
+
+[[permission]]
+identifier = "deny-audio-level"
+description = "Denies the audio_level command without any pre-configured scope."
+commands.deny = ["audio_level"]
