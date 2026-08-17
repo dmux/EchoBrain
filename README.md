@@ -7,21 +7,39 @@ Semantic memory for a person, captured by voice, on **DynamoDB vector search**.
 </p>
 
 <p align="center">
-  <sub><b>1 / 2</b> · A question, answered from the memories — and every memory it
+  <sub><b>1 / 4</b> · A question, answered from the memories — and every memory it
   read, with its similarity, right below the answer. Sources are never collapsed.</sub>
 </p>
 
 <details>
-<summary><b>Next › 2 / 2 — the memory graph</b></summary>
+<summary><b>Next › 2 / 4 — the memory graph, then voice capture</b></summary>
 
 <p align="center">
   <img src="design/screenshot2.png" alt="The graph view: memory nodes coloured by kind, linked by semantic similarity, with a legend for fact, preference, episode and snippet" width="820">
 </p>
 
 <p align="center">
-  <sub><b>2 / 2</b> · Nothing links one memory to another, so every edge here was
+  <sub><b>2 / 4</b> · Nothing links one memory to another, so every edge here was
   <em>asked for</em>: clicking a node buys its neighbourhood with one recall.
   Thickness is similarity; colour is the kind.</sub>
+</p>
+
+<p align="center">
+  <img src="design/screenshot3.png" alt="EchoBrain listening mode with microphone open, showing live dictation state and the three memory kinds" width="820">
+</p>
+
+<p align="center">
+  <sub><b>3 / 4</b> · Dictation is explicit: when the microphone is open, the app
+  stays in listening mode and shows it clearly before saving anything.</sub>
+</p>
+
+<p align="center">
+  <img src="design/screenshot4.png" alt="EchoBrain voice capture interface with waveform activity, stop hint, and large microphone control" width="820">
+</p>
+
+<p align="center">
+  <sub><b>4 / 4</b> · The voice path is designed for quick capture: strong visual
+  feedback, one-stop control, optional keyboard follow-up.</sub>
 </p>
 
 </details>
@@ -31,7 +49,7 @@ Semantic memory for a person, captured by voice, on **DynamoDB vector search**.
   markup through a sanitiser: no `<script>`, no `<style>`, no `onclick`, and no
   `:target` CSS. Nothing that could swap an image on click survives it. This is
   the closest working thing — one click, one image at a time, and it degrades to
-  both images stacked in any renderer that ignores `<details>`.
+  all images stacked in any renderer that ignores `<details>`.
 -->
 
 Gemini for Mac, the Claude and ChatGPT desktop apps, and terminal tools like
@@ -42,10 +60,10 @@ nothing about it.
 EchoBrain keeps it. What you say becomes a memory searchable **by meaning**, in a
 store where the vector lives in the same DynamoDB item as the record.
 
-> Press ⌥Space, say *"we picked a DynamoDB vector index over OpenSearch because
-> of the per-byte cost"*, and three weeks later — here, or from an agent reaching
-> the same namespace through the MCP server — ask *"why didn't we go with
-> OpenSearch?"* and get it back, without remembering the words you used.
+> Press ⌥Space, say _"we picked a DynamoDB vector index over OpenSearch because
+> of the per-byte cost"_, and three weeks later — here, or from an agent reaching
+> the same namespace through the MCP server — ask _"why didn't we go with
+> OpenSearch?"_ and get it back, without remembering the words you used.
 
 **Scope: capture, search, and — when what you said was a question — answer.**
 Speech → local transcription → kind classification → `remember()`, plus a search
@@ -66,16 +84,16 @@ an embedding plus a vector search across the network, so every pause put a
 spinner in the field and cards on screen while the sentence was still
 half-written. Now the only thing that runs as you type is `classify_intent` — a
 cue-phrase match in Rust, no network — and it earns that by labelling the two
-buttons before you commit to either. *Buscar* and *Guardar* are both always
+buttons before you commit to either. _Buscar_ and _Guardar_ are both always
 there, because taking the timer away would otherwise have left no way at all to
 look up a sentence the router files as a statement. Enter runs whichever one the
 chip points at; `⌘↵` always searches, because the router is a heuristic and
 retyping a sentence to look it up is absurd.
 
-> This used to read *"No LLM, no inference, no token cost."* It was true, and
+> This used to read _"No LLM, no inference, no token cost."_ It was true, and
 > giving it up was a real trade. What recall had going for it was that the
 > sentence coming back was the sentence that went in: wrong results were wrong
-> *searches*, and the similarity meter showed it. A composed answer can be
+> _searches_, and the similarity meter showed it. A composed answer can be
 > fluent and unsupported, and by voice it arrives where there is nothing to
 > skim. Three things guard the difference — a similarity floor below which no
 > model is called at all, a prompt closed over the recalled memories with a
@@ -114,7 +132,7 @@ ui/                      Next.js (static export) + shadcn/ui.
 site/                    The landing page, deployed to GitHub Pages. No app code.
 ```
 
-The short dependency list in `echobrain-core/Cargo.toml` *is* the architecture:
+The short dependency list in `echobrain-core/Cargo.toml` _is_ the architecture:
 the boundary is enforced by the compiler, so an accidental import fails the
 build instead of quietly eroding it.
 
@@ -134,14 +152,14 @@ make site    # the landing page, with hot reload. No Rust, no AWS.
 ```
 
 `make ui` is where interface iteration belongs: hot reload, seeded fixtures, no
-Rust toolchain and no network. The header shows a *dados de exemplo* badge so
+Rust toolchain and no network. The header shows a _dados de exemplo_ badge so
 fixtures are never mistaken for real memories.
 
 **`tauri.conf.json` deliberately has no `devUrl`.** With one set, a debug build
 points the webview at a dev server rather than at the bundle — so launching the
 binary without that server running gives a **silent white window**, no error
 anywhere. Without it the window always loads `ui/out`, which is why `make run`
-rebuilds the UI first. The cost is no hot reload *inside* the Tauri window;
+rebuilds the UI first. The cost is no hot reload _inside_ the Tauri window;
 `make ui` covers that case better anyway.
 
 ### Configuration
@@ -158,7 +176,7 @@ github_login = "your-login"   # attribution only, never authorization
 A file rather than environment variables because a `.app` opened from the Finder
 inherits no shell profile.
 
-**Every field above is editable in the app**, under *Configurações → Conexão*.
+**Every field above is editable in the app**, under _Configurações → Conexão_.
 The profile is a menu built from `~/.aws/config`, with an SSO login for whichever
 one is selected; saving rebuilds the AWS clients in place, so a change takes
 effect on the next search rather than on the next launch.
@@ -169,7 +187,7 @@ Environment variables still win. `AGENT_MEMORY_API`, `ECHOBRAIN_AWS_REGION` and
 profile chosen in the app would come back to that one on the next launch. The
 screen names any that are set rather than letting it happen quietly.
 
-Two others sit *below* the config layer and outrank it entirely —
+Two others sit _below_ the config layer and outrank it entirely —
 `AWS_ENDPOINT_URL` redirects every SDK client, `AWS_ACCESS_KEY_ID` outranks the
 named profile. Neither is honoured deliberately, and both are logged by name at
 startup when present, because the failure otherwise looks like broken
@@ -196,7 +214,7 @@ region = sa-east-1
 Written that way, `aws-config` renews the access token from inside this process,
 five minutes before it lapses, with no browser — so the app stays usable for as
 long as the IAM Identity Center session allows (8 hours by default, up to 90
-days, set under *Settings → Authentication*).
+days, set under _Settings → Authentication_).
 
 Written the old way — `sso_start_url` directly under `[profile x]`, no
 `[sso-session]` block — the CLI never asks for the refresh scope, the cached
@@ -210,7 +228,7 @@ says which one you are on rather than waiting for the failure. See
 
 Tauri v2 gates **app** commands behind the ACL, not just plugin commands. Miss a
 step and the app still builds, still launches, still looks right — and then
-every `invoke()` fails at runtime with *"not allowed. Plugin not found"*.
+every `invoke()` fails at runtime with _"not allowed. Plugin not found"_.
 
 1. `build.rs` — name it in `AppManifest::commands()`, which autogenerates
    `allow-<kebab-case-name>`
@@ -242,11 +260,11 @@ voice installed means answers are shown and not spoken.
 **What you say is routed, not assumed** — and so is what you type. `CueIntent`
 decides between storing an utterance and asking a question — "grava que o deploy
 saiu" against "por que a gente não foi de OpenSearch". It is cue phrases, not a
-model, for the same reason `CueClassifier` is: routing happens *before* the
+model, for the same reason `CueClassifier` is: routing happens _before_ the
 answering path, so paying for inference there would put a token cost on every
 capture. That is also what makes it cheap enough to run on every pause in the
 search field, where it decides which button Enter presses. It is wrong sometimes,
-so the guess shows as an editable chip. Correcting it *acts* only when the
+so the guess shows as an editable chip. Correcting it _acts_ only when the
 sentence was dictated — a voice interface that waits for a click is not one —
 while on the typed path it just re-labels the buttons, because your hands are
 already there and nothing here spends money without being told to. The ambiguous
@@ -270,7 +288,7 @@ make transcribe    # record 5 s from the microphone and print the transcript
 ```
 
 **Never test a recogniser against the microphone alone.** macOS hands an
-unpermitted process *silence*, not an error, and whisper hallucinates confident
+unpermitted process _silence_, not an error, and whisper hallucinates confident
 phrases over silence — five seconds of nothing transcribed as "E aí" while this
 was being built, which reads exactly like success. `make verify-audio` uses
 speech from `say` instead, so the assertion is about the recogniser rather than
@@ -287,8 +305,8 @@ immediately as `indexing` and a reconciler promotes them to `indexed`.
 **Discovery is semantic first, and listing arrived late.** `GET /memories`
 exists now — paginated by cursor, filtered by metadata — and it is what the
 Biblioteca reads. It is a filing aid, not a search: `text_contains` is a literal
-substring, so a memory whose *words* you have forgotten is still only reachable
-by meaning. Alongside it a local journal records what *this device* wrote — a
+substring, so a memory whose _words_ you have forgotten is still only reachable
+by meaning. Alongside it a local journal records what _this device_ wrote — a
 **cache, never an inventory**, kept because it is the only thing that knows a
 capture is still `indexing`. Memories written on the phone are absent from it,
 and TTL expiries happen server-side without notice, so any view built on it has
@@ -296,7 +314,7 @@ to say so rather than imply completeness.
 
 **Nothing links one memory to another.** There is no `[[wikilink]]`, no parent,
 no reference field — and the embeddings never leave the backend, deliberately.
-So the graph view derives every edge it draws by *asking*: `recall` on a
+So the graph view derives every edge it draws by _asking_: `recall` on a
 memory's own text returns its nearest neighbours, one embedding and one vector
 search at a time. That is why it expands where you click instead of pre-drawing
 the whole store, and why edges from shared `github_repo` or `kind` were
@@ -328,15 +346,15 @@ The 90-second consistency budget is a ceiling, not an expectation: both observed
 runs indexed in under a second. The polling stays because one fast pair of runs
 does not retire a documented bound.
 
-| Phase | What |
-|---|---|
-| ✅ 0 | Walking skeleton — workspace, core, UI, Tauri wired to the real API |
-| ✅ 1 | ⌥Space dictation: `cpal` → `rubato` → `whisper-rs` (Metal) |
+| Phase  | What                                                                                 |
+| ------ | ------------------------------------------------------------------------------------ |
+| ✅ 0   | Walking skeleton — workspace, core, UI, Tauri wired to the real API                  |
+| ✅ 1   | ⌥Space dictation: `cpal` → `rubato` → `whisper-rs` (Metal)                           |
 | ✅ 1.5 | Voice answers: `Speaker` (`say`), `Answerer` (Bedrock), record/ask routing, settings |
-| ✅ 2.5 | Conversation mode — streaming frames, endpointing, barge-in, follow-up window |
-| ✅ 2 | SQLite journal, library view, reconciler, rating and deactivation |
-| 3 | `NSPanel`, vibrancy, menu-bar icon, animation |
-| 4 | Wake word, and the embedding model behind speaker identity |
+| ✅ 2.5 | Conversation mode — streaming frames, endpointing, barge-in, follow-up window        |
+| ✅ 2   | SQLite journal, library view, reconciler, rating and deactivation                    |
+| 3      | `NSPanel`, vibrancy, menu-bar icon, animation                                        |
+| 4      | Wake word, and the embedding model behind speaker identity                           |
 
 Phase 1.5 is the one that changed the project's shape, and its cost is stated
 where it is paid: `answer_model` is absent by default, so a fresh install still
@@ -344,7 +362,7 @@ spends nothing, and the settings screen says what filling it in means.
 
 ## Conversation
 
-*Conversar* opens the microphone and keeps it open. The endpointer decides when
+_Conversar_ opens the microphone and keeps it open. The endpointer decides when
 you stopped talking, the turn is routed and answered, and the microphone stays
 live for a few seconds so the next thing you say continues the exchange.
 
@@ -360,7 +378,7 @@ detector, a task that runs the slow parts. Two, because frames arrive every
 seconds — and missing audio is invisible until someone's first word is gone.
 
 **Whose voice.** `echobrain-core/src/voice.rs` compares an utterance against an
-enrolled average and answers *is this probably them* with a number. It is not a
+enrolled average and answers _is this probably them_ with a number. It is not a
 lock — a recording of you passes it — so it is wired to exactly two things:
 dropping what the television said, and stamping who spoke onto the memory. It is
 off until enrolled, and the ⌥Space path is **never** filtered: pressing a key is
@@ -369,11 +387,11 @@ someone's voice would be broken in the least forgivable way.
 
 ### Two changes this project needs in the sibling repository
 
-1. **`RemoteMemoryService::with_config`** *(done)* — takes an explicit
+1. **`RemoteMemoryService::with_config`** _(done)_ — takes an explicit
    `SdkConfig` instead of resolving the ambient credential chain. Required for a
    Finder-launched `.app`, which inherits no shell profile.
 
-2. **The Cognito namespace fix** *(not done — blocking for any second user)*.
+2. **The Cognito namespace fix** _(not done — blocking for any second user)_.
    `principal_to_namespace` discards everything after the role name, which is
    correct for SSO (one human, many sessions) but collapses **every Cognito
    user into one namespace**, since they all assume the same role. The payload
